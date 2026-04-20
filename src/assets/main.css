@@ -1,9 +1,4 @@
-/* =============================================================
-   OndasMX — styles.css
-   Válido W3C CSS Level 3
-   ============================================================= */
 
-/* ── Variables globales ── */
 :root {
   --color-bg:           #F7F3FF;
   --color-bg-white:     #ffffff;
@@ -2271,3 +2266,23 @@ body.dark-mode .dark-toggle-btn {
 }
 .btn-submit:hover:not(:disabled) { opacity: 0.88; }
 .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-register {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  
+  /* Estilo secundario (fondo transparente, bordes coloridos) */
+  background: transparent;
+  border: 2px solid #5a67d8; /* Ajusta este color al de tu logo */
+  color: #5a67d8;
+}
+
+.btn-register:hover {
+  background: #5a67d8;
+  color: white;
+}

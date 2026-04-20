@@ -18,59 +18,44 @@ const BLOQUEO_MS = 30000
 
 const sanitizar = (valor) => valor.trim().replace(/[<>"'`]/g, '')
 
+// ... dentro de tu script setup en Login.vue
+
 const iniciarSesion = async () => {
   errorMsg.value = ''
-
+  
   if (bloqueado.value) {
     errorMsg.value = 'Demasiados intentos fallidos. Espera 30 segundos.'
-    return
-  }
-
-  const inputLimpio = sanitizar(email.value)
-  const passLimpia = sanitizar(password.value)
-
-  if (inputLimpio.length < 3) {
-    errorMsg.value = 'Ingresa un usuario o correo válido.'
-    return
-  }
-
-  if (passLimpia.length < 8) {
-    errorMsg.value = 'La contraseña debe tener al menos 8 caracteres.'
     return
   }
 
   cargando.value = true
 
   try {
-    await new Promise(r => setTimeout(r, 800))
-    const exito = true
+    const respuesta = await fetch('http://localhost:3000/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.value, password: password.value })
+    })
 
-    if (exito) {
-      intentos.value = 0
-      router.push('/home')
+    const datos = await respuesta.json()
+
+    if (respuesta.ok) {
+      // AQUÍ VA TU CÓDIGO
+      localStorage.setItem('user_logged_in', 'true'); 
+      intentos.value = 0;
+      router.push('/home');
     } else {
+      errorMsg.value = datos.error || 'Credenciales incorrectas'
       manejarFallo()
     }
   } catch (e) {
-    manejarFallo()
+    errorMsg.value = 'No se pudo conectar con el servidor'
   } finally {
     cargando.value = false
   }
 }
 
-const manejarFallo = () => {
-  intentos.value++
-  if (intentos.value >= MAX_INTENTOS) {
-    bloqueado.value = true
-    errorMsg.value = 'Cuenta bloqueada temporalmente. Espera 30 segundos.'
-    setTimeout(() => {
-      bloqueado.value = false
-      intentos.value = 0
-    }, BLOQUEO_MS)
-  } else {
-    errorMsg.value = `Credenciales incorrectas. Intento ${intentos.value}/${MAX_INTENTOS}.`
-  }
-}
+// ... (tu función manejarFallo y resto de variables)
 </script>
 
 <template>
@@ -138,6 +123,13 @@ const manejarFallo = () => {
           {{ cargando ? 'Entrando...' : 'Iniciar Sesión' }}
         </button>
 
+<button
+  type="button" 
+  class="btn-register" 
+  @click="router.push('/registro')"
+>
+  ¿No tienes cuenta? Regístrate
+</button>
       </form>
     </div>
   </div>
