@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 require('dotenv').config();
-
+// hay que implimetarle helmnet para seguridad, y morgan para logueo de peticiones, pero por ahora esto es lo básico para el backend
 const app = express();
 app.use(express.json());
 app.use(cors());

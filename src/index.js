@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from './components/Login.vue'
-import Home from './components/Home.vue'
-// Prueba con ./ (esto significa "en la carpeta actual")
+import Login from '../components/Login.vue'
+import Home from '../components/Home.vue'
 import Registro from './components/Registro.vue'
 
 const router = createRouter({
