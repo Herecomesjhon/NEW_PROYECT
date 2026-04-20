@@ -2067,3 +2067,207 @@ body.dark-mode .dark-toggle-btn {
   border-color: var(--color-purple);
   color: var(--color-purple);
 }
+.login-bg {
+  min-height: 100vh;
+  background-color: #0f1117;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  background-color: #1a1d2e;
+  border: 1px solid #2a2d3e;
+  border-radius: 16px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* ── HEADER: logo + nombre en fila ── */
+.login-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+/* ── LOGO ONDAS CSS ── */
+.logo-ondas {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.onda {
+  position: absolute;
+  border-radius: 50%;
+  border: 2.5px solid transparent;
+}
+
+.onda-3 {
+  width: 56px;
+  height: 56px;
+  border-color: rgba(220, 150, 255, 0.35);
+  background: transparent;
+}
+
+.onda-2 {
+  width: 40px;
+  height: 40px;
+  border-color: rgba(200, 100, 255, 0.55);
+  background: transparent;
+}
+
+.onda-1 {
+  width: 26px;
+  height: 26px;
+  border-color: rgba(180, 60, 255, 0.75);
+  background: transparent;
+}
+
+.logo-centro {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c840ff, #ff2d7a);
+  box-shadow: 0 0 10px rgba(200, 60, 255, 0.7);
+}
+
+/* ── TÍTULO ── */
+.login-title {
+  color: #ffffff;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.login-subtitle {
+  color: #8b8fa8;
+  font-size: 0.9rem;
+  margin: 0 0 28px;
+}
+
+/* ── CAMPOS ── */
+.campo {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.campo label {
+  display: block;
+  color: #c5c8d8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 0.9rem;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.input-wrap input {
+  width: 100%;
+  padding: 12px 40px 12px 38px;
+  background-color: #252839;
+  border: 1px solid #2e3248;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-wrap input::placeholder { color: #555a78; }
+.input-wrap input:focus { border-color: #c840ff; }
+.input-wrap input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.toggle-pass {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0;
+  opacity: 0.6;
+}
+.toggle-pass:hover { opacity: 1; }
+
+/* ── EXTRAS ── */
+.extras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0 20px;
+}
+
+.recuerdame {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #c5c8d8;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.recuerdame input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #c840ff;
+  cursor: pointer;
+}
+
+.olvide {
+  color: #c840ff;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.olvide:hover { text-decoration: underline; }
+
+/* ── ERROR ── */
+.error {
+  color: #ff6b6b;
+  font-size: 0.82rem;
+  background: #2a1a1a;
+  border: 1px solid #ff4444;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+/* ── BOTÓN ── */
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #c840ff, #ff2d7a);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-submit:hover:not(:disabled) { opacity: 0.88; }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }

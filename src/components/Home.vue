@@ -1,157 +1,126 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import '../assets/main.css'
+import { STATION_STREAMS, AI_SUMMARIES } from '../Services/radio.js'
 
-// --- TABS ---
-const tabs = ref([
-  { id: 'para-ti', name: 'Para Ti' },
-  { id: 'coleccion', name: 'Tu Colección' },
-  { id: 'estaciones', name: 'Estaciones en Vivo' },
-  { id: 'podcasts', name: 'Podcasts' },
-  { id: 'noticias', name: 'Noticias' },
-  { id: 'eventos', name: 'Eventos' },
-  { id: 'concursos', name: 'Concursos' }
-])
-const activeTab = ref('para-ti')
+// --- LÓGICA DE NAVEGACIÓN Y SESIÓN (Tu código actual) ---
+const router = useRouter()
+const email = ref('')
+const password = ref('')
+const recuerdame = ref(false)
+const errorMsg = ref('')
+const intentos = ref(0)
+const bloqueado = ref(false)
+const cargando = ref(false)
+const mostrarPassword = ref(false)
 
-// --- TICKER ---
-const tickerItems = ref([
-  'Banco de México mantiene tasa en 9.5%',
-  'Selección Mexicana convocada para eliminatorias',
-  'Temperatura récord en Sonora: 48°C',
-  'Inauguran nuevo tramo del Tren Maya',
-  'Peso mexicano cierra en $17.82 por dólar',
-  'Festival Internacional Cervantino anuncia fecha'
-])
+const MAX_INTENTOS = 5
+const BLOQUEO_MS = 30000
 
-// --- REPRODUCTOR ---
-const isPlaying = ref(false)
-const volume = ref(70)
+const sanitizar = (valor) => valor.trim().replace(/[<>"'`]/g, '')
 
-const stations = ref([
-  { id: 1, art: 'RN', title: 'Noticias de la Mañana', station: 'Radio Noticias · 98.5 FM', freq: '98.5 FM' },
-  { id: 2, art: 'RM', title: 'Éxitos del Rock', station: 'Rock México · 102.1 FM', freq: '102.1 FM' },
-  { id: 3, art: 'PO', title: 'Pop Mix', station: 'Pop FM · 95.3 FM', freq: '95.3 FM' }
-])
+const iniciarSesion = async () => {
+  errorMsg.value = ''
+  if (bloqueado.value) {
+    errorMsg.value = 'Demasiados intentos fallidos. Espera 30 segundos.'
+    return
+  }
 
-const currentTrackIndex = ref(0)
-const currentStation = computed(() => stations.value[currentTrackIndex.value])
+  const inputLimpio = sanitizar(email.value)
+  const passLimpia = sanitizar(password.value)
 
-const togglePlay = () => { isPlaying.value = !isPlaying.value }
-const nextTrack = () => { currentTrackIndex.value = (currentTrackIndex.value + 1) % stations.value.length }
-const prevTrack = () => { currentTrackIndex.value = (currentTrackIndex.value - 1 + stations.value.length) % stations.value.length }
-const updateVolume = () => { console.log(`Volumen: ${volume.value}%`) }
+  if (inputLimpio.length < 3 || passLimpia.length < 8) {
+    errorMsg.value = 'Revisa tus credenciales.'
+    return
+  }
 
-const selectStation = (station) => {
-  const index = stations.value.findIndex(s => s.id === station.id)
-  if (index !== -1) {
-    currentTrackIndex.value = index
-    isPlaying.value = true
+  cargando.value = true
+  try {
+    await new Promise(r => setTimeout(r, 800))
+    // Aquí podrías redirigir a otra página o cambiar un estado de "logueado"
+    console.log("Sesión iniciada");
+  } catch (e) {
+    manejarFallo()
+  } finally {
+    cargando.value = false
   }
 }
 
-// --- DATOS DE LAS SECCIONES ---
-const paraTiData = ref([
-  { id: 1, title: 'Podcast: Historia de México', desc: 'Episodio especial sobre el México antiguo', tag: 'Recomendado' },
-  { id: 2, title: 'En vivo: Radio Fórmula', desc: 'Noticias de última hora', tag: 'En Vivo' }
-])
-const coleccionData = ref([{ id: 1, title: 'Mis favoritos', desc: '12 canciones guardadas' }])
-const podcastsData = ref([{ id: 1, title: 'La Historia de México', episodes: 45, duration: '45 min' }])
-const noticiasData = ref([{ id: 1, headline: 'Claudia Sheinbaum presenta plan de energía', summary: 'Inversiones en renovables', category: 'Política' }])
-const eventosData = ref([{ id: 1, name: 'Vive Latino 2026', date: '15-17 Mayo', location: 'CDMX' }])
-const concursosData = ref([{ id: 1, title: 'Gana boletos para Vive Latino', prize: '2 boletos', deadline: '30/04/2026' }])
+const manejarFallo = () => {
+  intentos.value++
+  if (intentos.value >= MAX_INTENTOS) {
+    bloqueado.value = true
+    setTimeout(() => { bloqueado.value = false; intentos.value = 0; }, BLOQUEO_MS)
+  }
+}
+
+// --- LÓGICA DE LA RADIO (Mudada de script.js) ---
+const isPlaying = ref(false)
+const audioPlayer = new Audio()
+
+// Ejemplo con uno de tus streams de STATION_STREAMS
+const streamUrl = "https://s2.mexside.net/8016/stream" 
+
+const togglePlay = () => {
+  if (!isPlaying.value) {
+    audioPlayer.src = streamUrl
+    audioPlayer.play().catch(err => console.error("Error al reproducir:", err))
+    isPlaying.value = true
+  } else {
+    audioPlayer.pause()
+    isPlaying.value = false
+  }
+}
 </script>
 
 <template>
-  <div class="app-container">
-    <header class="site-header">
-      <div class="logo">
-        <div class="logo-icon"></div>
-        <span class="logo-text">Ondas<span class="logo-accent">MX</span></span>
+  <div class="login-bg">
+    <div class="login-card">
+      <div class="login-logo">
+        
       </div>
-      <div class="live-badge">
-        <span class="live-dot"></span>
-        <span>EN VIVO</span>
-      </div>
-    </header>
+      <h1 class="login-title">OndasMX</h1>
+      
+      <form @submit.prevent="iniciarSesion">
+        <div class="campo">
+          <label>Usuario o Email</label>
+          <input type="text" v-model="email" :disabled="bloqueado" />
+        </div>
 
-    <nav class="tabs-nav">
-      <div class="tabs-inner">
-        <button 
-          v-for="tab in tabs" 
-          :key="tab.id"
-          class="tab-btn" 
-          :class="{ active: activeTab === tab.id }"
-          @click="activeTab = tab.id">
-          {{ tab.name }}
+        <div class="campo">
+          <label>Contraseña</label>
+          <input :type="mostrarPassword ? 'text' : 'password'" v-model="password" />
+        </div>
+
+        <button type="submit" class="btn-submit" :disabled="cargando">
+          {{ cargando ? 'Entrando...' : 'Iniciar Sesión' }}
         </button>
-      </div>
-    </nav>
+      </form>
 
-    <div class="ticker-wrap">
-      <div class="ticker">
-        <span v-for="(item, index) in tickerItems" :key="index" class="ticker-item">
-          <span class="ticker-dot"></span> {{ item }}
-        </span>
+      <hr />
+
+      <div class="radio-section" style="margin-top: 20px; text-align: center;">
+        <p>Escuchar ahora:</p>
+        <button @click="togglePlay" class="btn-radio">
+          <span v-if="!isPlaying">▶ Reproducir Radio</span>
+          <span v-else>⏸ Detener Radio</span>
+        </button>
       </div>
     </div>
-
-    <section class="player-bar">
-      <div class="now-playing">
-        <div class="station-art">{{ currentStation.art }}</div>
-        <div class="now-info">
-          <h2 class="now-title">{{ currentStation.title }}</h2>
-          <p class="now-station">{{ currentStation.station }}</p>
-          <span class="freq-badge">{{ currentStation.freq }}</span>
-        </div>
-        <div class="waveform" v-if="isPlaying">
-          <span class="wave-bar" v-for="n in 8" :key="n"></span>
-        </div>
-      </div>
-
-      <div class="player-controls">
-        <button class="ctrl-btn" @click="prevTrack">⏮</button>
-        <button class="play-btn" @click="togglePlay">
-          {{ isPlaying ? '⏸' : '▶' }}
-        </button>
-        <button class="ctrl-btn" @click="nextTrack">⏭</button>
-      </div>
-
-      <div class="volume-area">
-        <span>🔊</span>
-        <input type="range" v-model="volume" @input="updateVolume" min="0" max="100" />
-        <span class="vol-label">{{ volume }}%</span>
-      </div>
-    </section>
-
-    <main class="sections-container">
-      <div v-if="activeTab === 'para-ti'" class="section-content">
-        <h2>🎧 Recomendado para ti</h2>
-        <div class="cards-grid">
-          <div class="card" v-for="item in paraTiData" :key="item.id">
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.desc }}</p>
-            <span class="tag">{{ item.tag }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div v-if="activeTab === 'estaciones'" class="section-content">
-        <h2>📻 Estaciones en Vivo</h2>
-        <div class="cards-grid">
-          <div class="card" v-for="item in stations" :key="item.id" @click="selectStation(item)">
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.freq }}</p>
-            <span class="tag">▶ Escuchar</span>
-          </div>
-        </div>
-      </div>
-      
-      </main>
-
-    <footer class="site-footer">
-      <p>© 2026 OndasMX. Música y noticias de México.</p>
-    </footer>
   </div>
 </template>
 
-<style src="/src/assets/main.css" scoped></style>
+<style scoped>
+.btn-radio {
+  background: #6200ee;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-radio:hover {
+  background: #3700b3;
+}
+</style>
