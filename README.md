@@ -1,6 +1,6 @@
 # OndasMX
 
-Plataforma full-stack de streaming de radio y noticias, desarrollada para ofrecer una experiencia en tiempo real con integración de Inteligencia Artificial.
+Plataforma full-stack de streaming de radio y noticias, desarrollada para ofrecer una experiencia en tiempo real.
 
 Stack: Vue.js 3 (Vite) + Node.js/Express + PostgreSQL 16 + Docker. Autenticación con JWT y Bcrypt. Servido con Nginx.
 
