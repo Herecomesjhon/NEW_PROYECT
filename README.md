@@ -1,6 +1,6 @@
 # OndasMX
 
-Plataforma streaming de radio y noticias, desarrollada para ofrecer una experiencia en tiempo real.
+Plataforma full-stack de streaming de radio y noticias, desarrollada para ofrecer una experiencia en tiempo real con integración de Inteligencia Artificial.
 
 Stack: Vue.js 3 (Vite) + Node.js/Express + PostgreSQL 16 + Docker. Autenticación con JWT y Bcrypt. Servido con Nginx.
 
@@ -20,7 +20,45 @@ Para el editor se recomienda VS Code con la extensión Vue (Official) y Vetur de
 
 ## Estructura del proyecto
 
-La carpeta `src/` contiene el frontend en Vue.js, con los componentes en `src/components/` (admin.vue, Home.vue, Login.vue, Registro.vue, WelcomeItem.vue), las imágenes en `src/img/` y los servicios en `src/Services/`. La carpeta `server/` contiene el backend en Node.js con Express, el archivo `server.js` como punto de entrada, y la carpeta `server/db/` con el script `init.sql` que define el esquema de la base de datos. En la raíz están los archivos de configuración: `docker-compose.yml`, `Dockerfile`, `nginx.conf`, `vite.config.ts` y `package.json`.
+```
+NEW_PROYECT/
+├── docker-compose.yml
+├── Dockerfile
+├── nginx.conf
+├── index.html
+├── vite.config.ts
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── package.json
+├── package-lock.json
+├── .gitignore
+├── README.md
+├── src/                        # Frontend (Vue.js)
+│   ├── assets/
+│   ├── components/
+│   │   ├── icons/
+│   │   ├── admin.vue
+│   │   ├── Home.vue
+│   │   ├── Login.vue
+│   │   ├── radio.js
+│   │   ├── Registro.vue
+│   │   └── WelcomeItem.vue
+│   ├── img/
+│   ├── Services/
+│   │   └── radio.js
+│   ├── App.vue
+│   ├── index.js
+│   └── main.js
+└── server/                     # Backend (Node.js + Express)
+    ├── server.js
+    ├── package.json
+    ├── Dockerfile
+    ├── .env                    # tus credenciales (no subir a git)
+    ├── .env.example
+    └── db/
+        └── init.sql            # esquema de la base de datos
+```
 
 ---
 
