@@ -2146,7 +2146,7 @@ body.dark-mode .dark-toggle-btn {
 }
 
 .login-subtitle {
-  color: #8b8fa8;
+  color: white;
   font-size: 0.9rem;
   margin: 0 0 28px;
 }
@@ -2283,6 +2283,6 @@ body.dark-mode .dark-toggle-btn {
 }
 
 .btn-register:hover {
-  background: #5a67d8;
+  background: white;
   color: white;
 }

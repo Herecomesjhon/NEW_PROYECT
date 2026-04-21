@@ -1,34 +1,36 @@
-# OndasMX 📻
+# OndasMX
 
-Plataforma full-stack de streaming de radio y noticias, desarrollada para ofrecer una experiencia en tiempo real con integración de Inteligencia Artificial.
-
----
-
-## 🛠 Tecnologías Utilizadas
-
-* **Frontend:** Vue.js 3 (Vite).
-* **Backend:** Node.js + Express.
-* **Base de Datos:** PostgreSQL.
-* **Autenticación:** JWT/LocalSession & Bcrypt para hashing de contraseñas.
-* **Extras:** Axios/Fetch, CSS (Custom).
+Plataforma full-stack de streaming de radio y noticias, desarrollada para ofrecer una experiencia en tiempo real con integracion de Inteligencia Artificial.
 
 ---
 
-## 📋 Requisitos Previos
+## Tecnologias Utilizadas
 
-Antes de comenzar, asegúrate de tener instalado:
-
-* Node.js (v16 o superior).
-* PostgreSQL y pgAdmin.
-* Git.
+- Frontend: Vue.js 3 (Vite) servido con Nginx.
+- Backend: Node.js + Express.
+- Base de Datos: PostgreSQL 16.
+- Autenticacion: JWT/LocalSession & Bcrypt para hashing de contrasenas.
+- Extras: Axios/Fetch, CSS (Custom).
+- Infraestructura: Docker + Docker Compose.
 
 ---
 
-## Configuración del IDE Recomendada
+## Requisitos Previos
+
+Solo necesitas tener instalado:
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (incluye Docker Compose).
+- Git.
+
+No necesitas instalar Node.js, PostgreSQL ni pgAdmin. Docker se encarga de todo.
+
+---
+
+## Configuracion del IDE Recomendada
 
 [VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (y desactiva Vetur).
 
-## Configuración del Navegador Recomendada
+## Configuracion del Navegador Recomendada
 
 - Navegadores basados en Chromium (Chrome, Edge, Brave, etc.):
   - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
@@ -39,15 +41,53 @@ Antes de comenzar, asegúrate de tener instalado:
 
 ## Soporte de Tipos para Importaciones `.vue` en TypeScript
 
-TypeScript no puede manejar la información de tipos para importaciones `.vue` por defecto, por lo que reemplazamos el CLI `tsc` con `vue-tsc` para la verificación de tipos. En los editores, necesitamos [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) para que el servicio de lenguaje TypeScript reconozca los tipos `.vue`.
+TypeScript no puede manejar la informacion de tipos para importaciones `.vue` por defecto, por lo que reemplazamos el CLI `tsc` con `vue-tsc` para la verificacion de tipos. En los editores, necesitamos [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) para que el servicio de lenguaje TypeScript reconozca los tipos `.vue`.
 
-## Personalizar la Configuración
+## Personalizar la Configuracion
 
-Consulta la [Referencia de Configuración de Vite](https://vite.dev/config/).
+Consulta la [Referencia de Configuracion de Vite](https://vite.dev/config/).
 
 ---
 
-## 🚀 Instalación
+## Estructura del Proyecto
+
+```
+NEW_PROYECT/
+├── docker-compose.yml
+├── README.md
+├── .gitignore
+├── index.html
+├── vite.config.ts
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── package.json
+├── package-lock.json
+├── Dockerfile
+├── nginx.conf
+├── public/
+└── src/
+│   ├── assets/
+│   ├── components/
+│   ├── img/
+│   ├── Services/
+│   │   └── radio.js
+│   ├── App.vue
+│   ├── index.js
+│   └── main.js
+└── server/
+    ├── server.js
+    ├── package.json
+    ├── Dockerfile
+    ├── .env
+    ├── .env.example
+    └── db/
+        └── init.sql
+```
+
+---
+
+## Inicio Rapido (con Docker)
 
 **1. Clonar el repositorio:**
 
@@ -56,35 +96,56 @@ git clone https://github.com/tu-usuario/nombre-de-tu-repo.git
 cd nombre-de-tu-repo
 ```
 
-**2. Instalar dependencias del Frontend:**
+**2. Configurar variables de entorno:**
 
 ```bash
-cd client
+cp server/.env.example server/.env
+```
+
+Abre `server/.env` y cambia la contrasena y el JWT secret.
+
+**3. Levantar todo:**
+
+```bash
+docker compose up --build
+```
+
+Listo. La aplicacion estara disponible en:
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3000
+- Base de datos: localhost:5432
+
+La base de datos se crea y configura sola la primera vez. No necesitas hacer nada en pgAdmin.
+
+---
+
+## Instalacion Manual (sin Docker)
+
+Si prefieres correr el proyecto sin Docker, necesitaras tener instalado Node.js (v16 o superior), PostgreSQL y pgAdmin, y Git.
+
+**1. Instalar dependencias del Frontend:**
+
+```bash
 npm install
 ```
 
-**3. Instalar dependencias del Backend:**
+**2. Instalar dependencias del Backend:**
 
 ```bash
-cd ../server
+cd server
 npm install
 ```
 
 ---
 
-## Configuración del Proyecto
-
-```sh
-npm install
-```
-
-### Compilar y Recargar en Caliente para Desarrollo
+## Compilar y Recargar en Caliente para Desarrollo
 
 ```sh
 npm run dev
 ```
 
-### Verificación de Tipos, Compilar y Minificar para Producción
+## Verificacion de Tipos, Compilar y Minificar para Produccion
 
 ```sh
 npm run build
@@ -92,12 +153,15 @@ npm run build
 
 ---
 
-## 🗄 Configuración de Base de Datos
+## Configuracion de Base de Datos
 
-1. Abre pgAdmin y crea una nueva base de datos llamada `login_radio_db`.
-2. En el "Query Tool", ejecuta el siguiente script para crear la tabla de usuarios:
+Con Docker la base de datos se crea automaticamente. El script `server/db/init.sql` se ejecuta solo la primera vez que se levanta el contenedor.
+
+Si usas instalacion manual, abre pgAdmin, crea una base de datos llamada `login_radio_db` y ejecuta este script en el Query Tool:
 
 ```sql
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
 CREATE TABLE IF NOT EXISTS usuarios (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -108,44 +172,83 @@ CREATE TABLE IF NOT EXISTS usuarios (
 );
 ```
 
-> **Nota:** Si en el futuro agregas más tablas, no olvides agregarlas a este script SQL para que tus colaboradores siempre tengan el esquema actualizado.
+> Si en el futuro agregas mas tablas, no olvides agregarlas a este script SQL y a `server/db/init.sql` para que tus colaboradores siempre tengan el esquema actualizado.
 
 ---
 
-## ⚙️ Variables de Entorno
+## Variables de Entorno
 
-Crea un archivo `.env` dentro de la carpeta `/server` con la siguiente estructura:
+Crea o edita el archivo `server/.env` con la siguiente estructura:
 
 ```env
 DB_USER=postgres
 DB_HOST=localhost
-DB_PASSWORD=tu_contraseña_de_postgres
+DB_PASSWORD=tu_contrasena_de_postgres
 DB_PORT=5432
+DB_NAME=login_radio_db
+JWT_SECRET=cambia_este_secreto_por_uno_seguro
 ```
+
+> Cuando uses Docker, `DB_HOST` debe ser `db` (nombre del contenedor). Para instalacion manual usa `localhost`.
 
 ---
 
-## ▶️ Ejecución del Proyecto
+## Ejecucion Manual del Proyecto
 
-Para correr la aplicación, necesitarás dos terminales:
+Para correr la aplicacion sin Docker necesitaras dos terminales:
 
-**Terminal 1 — Backend:**
+Terminal 1 - Backend:
 
 ```bash
 cd server
 node server.js
 ```
 
-**Terminal 2 — Frontend:**
+Terminal 2 - Frontend:
 
 ```bash
-cd client
 npm run dev
 ```
 
 ---
 
-## 🤝 Colaboración
+## Comandos Utiles de Docker
+
+Levantar el proyecto:
+
+```bash
+docker compose up --build
+```
+
+Detener el proyecto:
+
+```bash
+docker compose down
+```
+
+Detener y eliminar la base de datos (para empezar desde cero):
+
+```bash
+docker compose down -v
+```
+
+Ver logs en tiempo real:
+
+```bash
+docker compose logs -f
+```
+
+Ver logs de un servicio especifico:
+
+```bash
+docker compose logs -f server
+docker compose logs -f db
+docker compose logs -f client
+```
+
+---
+
+## Colaboracion
 
 1. Haz un fork del proyecto.
 2. Crea una rama para tu funcionalidad: `git checkout -b feature/nueva-funcionalidad`.
@@ -154,5 +257,6 @@ npm run dev
 
 **Tips importantes:**
 
-* **`.gitignore`:** Asegúrate de tener un archivo `.gitignore` en la raíz que contenga `node_modules/` y `.env`. Nunca subas tu archivo `.env` real a GitHub, ya que contiene tus contraseñas privadas de la base de datos.
-* **Base de datos:** Si agregas más tablas en el futuro, actualiza el script SQL de este README para que tus colaboradores siempre tengan el esquema al día.
+- `.gitignore`: Asegurate de incluir `node_modules/` y `.env` para no subir datos sensibles. Nunca subas tu archivo `.env` real a GitHub, ya que contiene tus contrasenas privadas.
+- Base de datos: Si agregas mas tablas en el futuro, actualiza `server/db/init.sql` y el script SQL de este README para que todos los colaboradores tengan el esquema al dia.
+- Docker: Nunca cambies `DB_HOST=db` en el `.env` cuando uses Docker. Ese valor es el nombre interno del contenedor de PostgreSQL.
