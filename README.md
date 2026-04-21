@@ -10,7 +10,8 @@ Stack: Vue.js 3 (Vite) + Node.js/Express + PostgreSQL 16 + Docker. Autenticació
 
 Solo necesitas tener instalado Docker Desktop (incluye Docker Compose) y Git. No necesitas instalar Node.js, PostgreSQL ni pgAdmin. Docker se encarga de todo.
 
-Igual esta la opcion de ejecutar el proyecto por medio de docker abajo estan las instrucciones.
+SI NO TIENES DOCKER DESCKTOP TE DEJO EL LINK DE DESCARGA:
+[Descargar Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 ---
 
