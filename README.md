@@ -1,6 +1,6 @@
 # OndasMX
 
-Plataforma full-stack de streaming de radio y noticias, desarrollada para ofrecer una experiencia en tiempo real con integración de Inteligencia Artificial.
+Plataforma full-stack de streaming de radio y noticias, desarrollada para ofrecer una experiencia en tiempo real con integracion de Inteligencia Artificial.
 
 Stack: Vue.js 3 (Vite) + Node.js/Express + PostgreSQL 16 + Docker. Autenticación con JWT y Bcrypt. Servido con Nginx.
 
@@ -12,12 +12,26 @@ Solo necesitas tener instalado Docker Desktop (incluye Docker Compose) y Git. No
 
 ---
 
-## Herramientas Recomendadas
+## Configuracion del IDE Recomendada
 
-Para el editor se recomienda VS Code
-con la extensión Vue (Official)
-Vetur desactivado.
-Para el navegador, si usas Chrome, Edge o Brave instala Vue.js devtools desde la Chrome Web Store y activa el Custom Object Formatter en DevTools. Si usas Firefox, instala Vue.js devtools desde los addons de Mozilla y activa el Custom Object Formatter en Firefox DevTools.
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (y desactiva Vetur).
+
+## Configuracion del Navegador Recomendada
+
+- Navegadores basados en Chromium (Chrome, Edge, Brave, etc.):
+  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
+  - [Activar Custom Object Formatter en Chrome DevTools](http://bit.ly/object-formatters)
+- Firefox:
+  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
+  - [Activar Custom Object Formatter en Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+
+## Soporte de Tipos para Importaciones `.vue` en TypeScript
+
+TypeScript no puede manejar la informacion de tipos para importaciones `.vue` por defecto, por lo que reemplazamos el CLI `tsc` con `vue-tsc` para la verificacion de tipos. En los editores, necesitamos [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) para que el servicio de lenguaje TypeScript reconozca los tipos `.vue`.
+
+## Personalizar la Configuracion
+
+Consulta la [Referencia de Configuracion de Vite](https://vite.dev/config/).
 
 ---
 
@@ -69,8 +83,7 @@ NEW_PROYECT/
 
 ### 1. Clona el repositorio
 
-Puedes hacerlo de dos formas. 
-Con GitHub Desktop: abre la aplicación, ve a File > Clone repository, pega la URL del repositorio y elige dónde guardarlo. Con Git desde la terminal: abre una terminal en la carpeta donde quieras guardar el proyecto, copia la URL desde el botón verde "Code" en GitHub y ejecuta:
+**1. Clonar el repositorio:**
 
 ```bash
 git clone URL_DEL_REPOSITORIO
@@ -193,8 +206,15 @@ npm run build
 
 ---
 
-## Contribuir
+## Colaboracion
 
-Haz un fork del proyecto, crea tu rama con `git checkout -b feature/nombre-de-tu-feature`, haz tus cambios y abre un Pull Request.
+1. Haz un fork del proyecto.
+2. Crea una rama para tu funcionalidad: `git checkout -b feature/nueva-funcionalidad`.
+3. Haz tus cambios y sube tus commits.
+4. Crea un Pull Request.
 
-Nunca subas `.env` a GitHub ya que contiene tus contraseñas privadas, asegúrate de que `node_modules/` y `.env` estén en `.gitignore`. Si agregas nuevas tablas a la base de datos, actualiza `server/db/init.sql` para que todos los colaboradores tengan el esquema actualizado.
+**Tips importantes:**
+
+- `.gitignore`: Asegurate de incluir `node_modules/` y `.env` para no subir datos sensibles. Nunca subas tu archivo `.env` real a GitHub, ya que contiene tus contrasenas privadas.
+- Base de datos: Si agregas mas tablas en el futuro, actualiza `server/db/init.sql` y el script SQL de este README para que todos los colaboradores tengan el esquema al dia.
+- Docker: Nunca cambies `DB_HOST=db` en el `.env` cuando uses Docker. Ese valor es el nombre interno del contenedor de PostgreSQL.
