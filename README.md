@@ -1,6 +1,6 @@
 # OndasMX
 
-Plataforma full-stack de streaming de radio y noticias, desarrollada para ofrecer una experiencia en tiempo real con integracion de Inteligencia Artificial.
+Plataforma full-stack de streaming de radio y noticias, desarrollada para ofrecer una experiencia en tiempo real.
 
 Stack: Vue.js 3 (Vite) + Node.js/Express + PostgreSQL 16 + Docker. Autenticación con JWT y Bcrypt. Servido con Nginx.
 
@@ -9,6 +9,8 @@ Stack: Vue.js 3 (Vite) + Node.js/Express + PostgreSQL 16 + Docker. Autenticació
 ## Requisitos Previos
 
 Solo necesitas tener instalado Docker Desktop (incluye Docker Compose) y Git. No necesitas instalar Node.js, PostgreSQL ni pgAdmin. Docker se encarga de todo.
+
+Igual esta la opcion de ejecutar el proyecto por medio de docker abajo estan las instrucciones.
 
 ---
 
