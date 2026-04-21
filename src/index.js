@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from './components/Login.vue'
 import Home from './components/Home.vue'
 import Registro from './components/Registro.vue'
-import Admin from './components/Admin.vue'
+import Admin from './components/admin.vue'
 
 const router = createRouter({
   history: createWebHistory(),
