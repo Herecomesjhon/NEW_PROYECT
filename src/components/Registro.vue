@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="extras">
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9em; cursor: pointer;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9em; cursor: pointer;color: #c5c8d8;">
               <input type="checkbox" v-model="terminosAceptados" required />
               <span>Acepto los términos y condiciones</span>
             </label>
